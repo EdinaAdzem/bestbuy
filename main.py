@@ -1,29 +1,105 @@
 import products
-from PythonSE105.OOP.bestbuy.products import Product
-from PythonSE105.OOP.bestbuy.store import Store
+import store
+
+
+def show_menu():
+    """Displays the menu options."""
+    print("\n-------- \U0001F579Store Menu\U0001F579 ---------")
+    print("1. List all products")
+    print("2. Show total amount")
+    print("3. Make an order")
+    print("4. Quit")
+
+
+def list_products(store_obj):
+    """List all products from the inventory"""
+    products_list = store_obj.get_all_products()
+    print("\n--- Products in Store ---")
+    for index, product in enumerate(products_list, start=1):
+        print(f"{index}. {product.name} - Quantity: {product.quantity} - Price: ${product.price}")
+
+
+def show_total_amount(store_obj):
+    """total amount of items """
+    total_quantity = store_obj.get_total_quantity()
+    print(f"\nTotal number of items in the Best Buy store: {total_quantity}")
+
+
+def make_order(store_obj):
+    """Process an order."""
+    products_list = store_obj.get_all_products()
+    shopping_list = []
+
+    print("\n=== Make an Order ===")
+    print("Enter the product number and quantity (e.g., 1 5) or type 'quit' to finish:")
+    for index, product in enumerate(products_list, start=1):
+        print(f"{index}. {product.name}")
+
+    while True:
+        user_input = input("Enter selection: ").strip().lower()
+
+        if user_input == "quit":
+            break
+
+        try:
+            selection = int(user_input)
+            if selection < 1 or selection > len(products_list):
+                print("Invalid choice, pick an item from the list.")
+                continue
+        except ValueError:
+            print("Invalid input.")
+            continue
+
+        quantity_input = input("Enter quantity: ").strip().lower()
+        try:
+            quantity = int(quantity_input)
+            if quantity <= 0:
+                print("Quantity must be a positive number.")
+                continue
+        except ValueError:
+            print("Invalid input. Quantity must be a number.")
+            continue
+
+        product = products_list[selection - 1]
+        if quantity > product.quantity:
+            print(f"Insufficient stock! Only {product.quantity} {product.name} available.")
+        else:
+            shopping_list.append((product, quantity))
+            print(f"{quantity} {product.name} added to cart.")
+
+    if shopping_list:
+        total_cost = store_obj.order(shopping_list)
+        print(f"Order placed successfully! Total cost: ${total_cost}")
+    else:
+        print("No items added to the cart.")
+
+
+def start(store_object):
+    """Start the store interface."""
+    while True:
+        show_menu()
+        choice = input("Enter your choice (1-4): ").strip()
+
+        if choice == '1':
+            list_products(store_object)
+        elif choice == '2':
+            show_total_amount(store_object)
+        elif choice == '3':
+            make_order(store_object)
+        elif choice == '4':
+            print("Thank you for shopping at Best Buy!")
+            break
+        else:
+            print("Invalid choice. Please enter a number from 1 to 4.")
+
 
 if __name__ == "__main__":
-    print("The Product Class checks")
-    bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-    mac = Product("MacBook Air M2", price=1450, quantity=100)
+    # Setup initial stock of inventory
+    product_list = [
+        products.Product("MacBook Air M2", price=1450, quantity=100),
+        products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+        products.Product("Google Pixel 7", price=500, quantity=250)
+    ]
 
-    print(bose.buy(50))
-    print(mac.buy(100))
-    print(mac.is_active())
-
-    print(bose.show())
-    print(mac.show())
-
-    bose.set_quantity(1000)
-    print(bose.show())
-
-    print("The Store Class checks")
-    product_list = [products.Product("MacBook Air M2", price=1450, quantity=100),
-                    products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                    products.Product("Google Pixel 7", price=500, quantity=250),
-                    ]
-
-    store = Store(product_list)
-    products = store.get_all_products()
-    print(store.get_total_quantity())
-    print(store.order([(products[0], 1), (products[1], 2)]))
+    store_object = store.Store(product_list)
+    start(store_object)
