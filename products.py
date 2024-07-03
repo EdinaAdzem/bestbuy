@@ -1,6 +1,5 @@
 class Product:
     """The Product class represents a specific type of product available in the store"""
-
     def __init__(self, name, price, quantity):
         if not name or price < 0 or quantity < 0:
             raise ValueError("Invalid input: Name cannot be empty, price and quantity must be non-negative.")
@@ -35,13 +34,11 @@ class Product:
 
     def show(self):
         """Returns a string that represents the product."""
-        return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
+        return f"Product: {self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def buy(self, quantity):
-        """Buys a given quantity of the product.
-        Returns the total price (float) of the purchase.
-        Updates the quantity of the product.
-        In case of a problem (when? think about it), raises an Exception."""
+        """Buys a given quantity of the product.Returns the total price (float) of the purchase.
+        Updates the quantity of the product.In case of a problem raises an Exception."""
         if quantity <= 0:
             raise ValueError("Quantity to buy must be greater than zero.")
         if quantity > self.quantity:

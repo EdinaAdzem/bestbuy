@@ -1,16 +1,16 @@
-import products
 class Store():
+    """The Store class will contain one variable - a list of products that exist in the store."""
+
     def __init__(self, product_list):
         self.product_list = product_list
 
     def add_product(self, product):
+        """function to add a product"""
         self.product_list.append(product)
-
 
     def remove_product(self, product):
         """Removes a product from store."""
-        self.product_list.append(product)
-
+        self.product_list.remove(product)
 
     def get_total_quantity(self):
         """Returns how many items are in the store in total."""
