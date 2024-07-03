@@ -22,54 +22,39 @@ def list_products(store_obj):
 def show_total_amount(store_obj):
     """total amount of items """
     total_quantity = store_obj.get_total_quantity()
-    print(f"\nTotal number of items in the Best Buy store: {total_quantity}")
+    print(f"\nTotal number of items in the store: {total_quantity}")
 
 
 def make_order(store_obj):
-    """Process an order."""
+    """Separate function to handle the make an order option"""
     products_list = store_obj.get_all_products()
     shopping_list = []
 
     print("\n=== Make an Order ===")
-    print("Enter the product number and quantity (e.g., 1 5) or type 'quit' to finish:")
     for index, product in enumerate(products_list, start=1):
         print(f"{index}. {product.name}")
 
     while True:
-        user_input = input("Enter selection: ").strip().lower()
-
-        if user_input == "quit":
+        user_input = input("Which product would you like to order? ").strip().lower()
+        print("-------> When you want to finish order, enter empty text.")
+        if user_input == "":
             break
 
-        try:
-            selection = int(user_input)
-            if selection < 1 or selection > len(products_list):
-                print("Invalid choice, pick an item from the list.")
-                continue
-        except ValueError:
-            print("Invalid input.")
-            continue
-
-        quantity_input = input("Enter quantity: ").strip().lower()
-        try:
+        selection = int(user_input)
+        if 1 <= selection <= len(products_list):
+            quantity_input = input("Please enter the quantity? ").strip().lower()
             quantity = int(quantity_input)
-            if quantity <= 0:
-                print("Quantity must be a positive number.")
-                continue
-        except ValueError:
-            print("Invalid input. Quantity must be a number.")
-            continue
 
-        product = products_list[selection - 1]
-        if quantity > product.quantity:
-            print(f"Insufficient stock! Only {product.quantity} {product.name} available.")
-        else:
-            shopping_list.append((product, quantity))
-            print(f"{quantity} {product.name} added to cart.")
+            product = products_list[selection - 1]
+            if quantity <= product.quantity:
+                shopping_list.append((product, quantity))
+                print("Product added to list!")
+            else:
+                print(f"Not in Stock! Please note the {product.quantity} {product.name} availability.")
 
     if shopping_list:
         total_cost = store_obj.order(shopping_list)
-        print(f"Order placed successfully! Total cost: ${total_cost}")
+        print(f"********\nOrder made! Total payment: {total_cost}\n********")
     else:
         print("No items added to the cart.")
 
