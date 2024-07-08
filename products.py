@@ -58,8 +58,15 @@ class NonStockedProduct(Product):
     def buy(self, quantity):
         """Overrides the buy method to handle non-stocked products differently."""
         if quantity <= 0:
-            raise ValueError("Quantity to buy must be greater than zero.")
+            raise ValueError("Non-stocked products cannot be purchased.")
         return self.price * quantity
+
+    def show(self):
+        """Override show method to display special characteristics."""
+        return f"NonStocked Product: {self.name}, Price: {self.price}, Quantity: Not Applicable"
+
+
+
 
 #Codio Best Buy 2
 class LimitedProduct(Product):#extends from product

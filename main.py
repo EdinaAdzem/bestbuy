@@ -23,6 +23,7 @@ def show_total_amount(store_obj):
     """total amount of items """
     total_quantity = store_obj.get_total_quantity()
     print(f"\nTotal number of items in the store: {total_quantity}")
+    print("=" * 40)
 
 
 def make_order(store_obj):
@@ -42,21 +43,31 @@ def make_order(store_obj):
 
         selection = int(user_input)
         if 1 <= selection <= len(products_list):
+            product = products_list[selection - 1]
+
+            #add the check for the nonstocker prods class from products
+            if isinstance(product, products.NonStockedProduct):
+                print(f"{product.name} Not Stockable!")
+                continue
+
             quantity_input = input("Please enter the quantity? ").strip().lower()
             quantity = int(quantity_input)
 
-            product = products_list[selection - 1]
             if quantity <= product.quantity:
                 shopping_list.append((product, quantity))
                 print("Product added to list!")
+                print("=" * 40)
             else:
                 print(f"Not in Stock! Please note the {product.quantity} {product.name} availability.")
+                print("=" * 40)
 
     if shopping_list:
         total_cost = store_obj.order(shopping_list)
         print(f"********\nOrder made! Total payment: {total_cost}\n********")
+        print("=" * 40)
     else:
         print("No items added to the cart.")
+        print("=" * 40)
 
 
 def start(store_object):
