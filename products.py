@@ -46,3 +46,35 @@ class Product:
         total_price = self.price * quantity
         self.set_quantity(self.quantity - quantity)
         return total_price
+
+    #codio - Best buy 2
+
+class NonStockedProduct(Product):
+    """Some products in the store are not physical, so we don’t need to keep track of their quantity."""
+    def __init__(self, name, price):
+        super().__init__(name, price, 0)
+        self._is_active = True
+
+    def buy(self, quantity):
+        """Overrides the buy method to handle non-stocked products differently."""
+        if quantity <= 0:
+            raise ValueError("Quantity to buy must be greater than zero.")
+        return self.price * quantity
+
+#Codio Best Buy 2
+class LimitedProduct(Product):#extends from product
+    """Some products can only be purchased X times in an order. If an order is attempted with quantity larger than the maximum one, it should be refused with an exception.
+    """
+    def __init__(self, name, price, quantity, max_count):
+        super().__init__(name, price, quantity)
+        self.name = name
+        if max_count < 1:
+            raise ValueError("Limited to max_count = 1.")
+        self.max_count = max_count
+
+    def buy(self, quantity):
+        if quantity > self.max_count:
+            raise ValueError(f"Cannot purchase more than {self.max_count} {self.name}")
+        if quantity > self.quantity:
+            raise ValueError("Not enough quantity available.")
+        return super().buy(quantity)
