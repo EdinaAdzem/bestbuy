@@ -85,3 +85,6 @@ class LimitedProduct(Product):#extends from product
         if quantity > self.quantity:
             raise ValueError("Not enough quantity available.")
         return super().buy(quantity)
+
+    def show(self):
+        return f"Product: {self.name}, Price: {self.price}, Quantity: {self.quantity}, Max Purchase Limit: {self.max_count}"
