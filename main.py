@@ -45,21 +45,32 @@ def make_order(store_obj):
         if 1 <= selection <= len(products_list):
             product = products_list[selection - 1]
 
-            #add the check for the nonstocker prods class from products
+            # Check for NonStockedProduct
             if isinstance(product, products.NonStockedProduct):
-                print(f"{product.name} Not Stockable!")
+                print(f"{product.name} is not stockable!")
                 continue
 
             quantity_input = input("Please enter the quantity? ").strip().lower()
+            if quantity_input == "":
+                print("Quantity cannot be empty. Please enter a valid quantity.")
+                continue
             quantity = int(quantity_input)
+
+            if quantity <= 0:
+                print("Quantity to buy must be greater than zero.")
+                continue
+
+            # Check for LimitedProduct
+            if isinstance(product, products.LimitedProduct):
+                if quantity > product.max_count:
+                    print(f"Cannot purchase more than {product.max_count} {product.name}(s).")
+                    continue
 
             if quantity <= product.quantity:
                 shopping_list.append((product, quantity))
                 print("Product added to list!")
-                print("=" * 40)
             else:
                 print(f"Not in Stock! Please note the {product.quantity} {product.name} availability.")
-                print("=" * 40)
 
     if shopping_list:
         total_cost = store_obj.order(shopping_list)
