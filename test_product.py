@@ -6,9 +6,9 @@ def test_create_product():
     """Test that creating a normal product works."""
     p = Product("Item", 10, 10)
     assert p.name == "Item"
-    assert p.price == 10
-    assert p.quantity == 10
-    assert p.is_active()  # Call the method from products.py
+    assert p.price == 10 #check for correct price
+    assert p.quantity == 10 # check for correct quantity
+    assert p.is_active()  # Call the method from products.py to check if still active
 
 
 def test_create_product_invalid_details():
@@ -37,7 +37,7 @@ def test_product_purchase():
 
 
 def test_product_purchase_invalid_quantity():
-    """Test that buying a larger quantity than exists invokes exception."""
+    """Test that buying a larger quantity than exists invokes an exception."""
     p = Product("Item", 10, 10)
     with pytest.raises(ValueError):
         p.buy(11)
