@@ -7,6 +7,15 @@ class Product:
         self.price = price
         self.quantity = quantity
         self._is_active = True
+        self.promotion = None #promotion instance variable
+
+    def get_promotion(self):
+        """Getter for promotion."""
+        return self.promotion
+
+    def set_promotion(self, promotion):
+        """Setter for promotion."""
+        self.promotion = promotion
 
     def get_quantity(self):
         """Getter function for quantity."""
@@ -34,16 +43,22 @@ class Product:
 
     def show(self):
         """Returns a string that represents the product."""
-        return f"Product: {self.name}, Price: {self.price}, Quantity: {self.quantity}"
+        promotion_text = f"Promotion: {self.promotion._name}" if self.promotion else "No Promotion"
+        return f"Product: {self.name}, Price: {self.price}, Quantity: {self.quantity}, {promotion_text}"
 
     def buy(self, quantity):
-        """Buys a given quantity of the product.Returns the total price (float) of the purchase.
-        Updates the quantity of the product.In case of a problem raises an Exception."""
+        """Buys a given quantity of the product. Returns the total price (float) of the purchase.
+        Updates the quantity of the product. In case of a problem raises an Exception."""
         if quantity <= 0:
             raise ValueError("Quantity to buy must be greater than zero.")
         if quantity > self.quantity:
             raise ValueError("Not enough quantity available.")
-        total_price = self.price * quantity
+
+        if self.promotion:
+            total_price = self.promotion.apply_promotion(self, quantity)
+        else:
+            total_price = self.price * quantity
+
         self.set_quantity(self.quantity - quantity)
         return total_price
 
