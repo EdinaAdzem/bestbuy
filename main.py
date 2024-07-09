@@ -75,7 +75,7 @@ def make_order(store_obj):
 
     if shopping_list:
         total_cost = store_obj.order(shopping_list)
-        #check where the promotions were applies
+        # check where the promotions were applied and display to the user
         for product, quantity in shopping_list:
             if product.promotion:
                 print(f"\033[91m🌟 Promotions applied for: {product.name}: {product.promotion._name}🌟\033[0m")
