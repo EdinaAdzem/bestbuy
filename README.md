@@ -1,5 +1,4 @@
-# Best Buy Store 
-# Management System
+# Best Buy 
 
 ## Project Overview
 The Best Buy System is a Python-based application that simulates the operations of a retail store. 
