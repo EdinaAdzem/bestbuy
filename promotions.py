@@ -37,13 +37,10 @@ class SecondItemHalfPrice(Promotion):
         super().__init__(name)
 
     def apply_promotion(self, product, quantity):
-        total_price = 0
-        for i in range(1, quantity + 1):
-            if i % 2 == 0:
-                total_price += product.price / 2
-            else:
-                total_price += product.price
-        return total_price
+        if quantity % 2 == 0:
+            return (quantity // 2) * (product.price * 1.5)
+        else:
+            return ((quantity // 2) * (product.price * 1.5)) + product.price
 
 
 class Buy2Get1Free(Promotion):
@@ -54,6 +51,4 @@ class Buy2Get1Free(Promotion):
 
     def apply_promotion(self, product, quantity):
         free_item = quantity // 3
-        paid_for_items = quantity - free_item
-        total_price = product.price * paid_for_items
-        return total_price
+        return (quantity - free_item) * product.price

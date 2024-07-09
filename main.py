@@ -75,6 +75,10 @@ def make_order(store_obj):
 
     if shopping_list:
         total_cost = store_obj.order(shopping_list)
+        #check where the promotions were applies
+        for product, quantity in shopping_list:
+            if product.promotion:
+                print(f"\033[91m🌟 Promotions applied for: {product.name}: {product.promotion._name}🌟\033[0m")
         print(f"********\nOrder made! Total payment: {total_cost}\n********")
         print("=" * 40)
     else:
@@ -114,12 +118,20 @@ if __name__ == "__main__":
     # Create promotion catalog
     second_half_price = promotions.SecondItemHalfPrice("Second Half price!")
     third_one_free = promotions.Buy2Get1Free("Third One Free!")
-    thirty_percent = promotions.PercentageDiscount("30% off!", percent=30)
+    thirty_percent = promotions.PercentageDiscount("50% off!", percentage=50)
 
     # Add promotions to products
     product_list[0].set_promotion(second_half_price)
     product_list[1].set_promotion(third_one_free)
-    product_list[3].set_promotion(thirty_percent)
+    product_list[2].set_promotion(thirty_percent)
+
+    #To show the active promotions
+    print("🌟Active Promotions🌟\033[0m")
+    for product in product_list:
+        if product.promotion:
+            print(f"\033[91m🌟 Promotions applied for {product.name}: {product.promotion._name} 🌟\033[0m")
+        else:
+            print(f"\033[91m{product.show()}\033[0m")
 
     store_object = store.Store(product_list)
     start(store_object)

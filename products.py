@@ -53,12 +53,10 @@ class Product:
             raise ValueError("Quantity to buy must be greater than zero.")
         if quantity > self.quantity:
             raise ValueError("Not enough quantity available.")
-
         if self.promotion:
             total_price = self.promotion.apply_promotion(self, quantity)
         else:
             total_price = self.price * quantity
-
         self.set_quantity(self.quantity - quantity)
         return total_price
 
