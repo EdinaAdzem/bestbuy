@@ -79,7 +79,7 @@ def make_order(store_obj):
         for product, quantity in shopping_list:
             if product.promotion:
                 print(f"\033[91m🌟 Promotions applied for: {product.name}: {product.promotion._name}🌟\033[0m")
-        print(f"********\nOrder made! Total payment: {total_cost}\n********")
+        print(f"********\nOrder made! Total payment:\033[91m🌟 {total_cost}🌟\033[0m********")
         print("=" * 40)
     else:
         print("No items added to the cart.")
@@ -99,7 +99,7 @@ def start(store_object):
         elif choice == '3':
             make_order(store_object)
         elif choice == '4':
-            print("Thank you for shopping at Best Buy!")
+            print("\033[91m🌟Thank you for shopping at Best Buy!🌟\033[0m")
             break
         else:
             print("Invalid choice. Please enter a number from 1 to 4.")
